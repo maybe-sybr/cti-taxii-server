@@ -3,6 +3,7 @@ import io
 import json
 import uuid
 
+import environ
 from six import string_types
 
 from ..common import (
@@ -34,6 +35,10 @@ def find_headers(headers, manifest, obj):
 class MemoryBackend(Backend):
 
     # access control is handled at the views level
+
+    @environ.config(prefix="MEMORY")
+    class Config(object):
+        filename = environ.var(None)
 
     def __init__(self, **kwargs):
         if kwargs.get("filename"):
